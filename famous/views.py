@@ -9,7 +9,6 @@ menu = [{'title': "About", 'url_name': 'about'},
         {'title': "Sogn In", 'url_name': 'login'}
 ]
 
-
 def index(request):
     posts = Famous.objects.all()
     context = {
@@ -20,3 +19,11 @@ def index(request):
 
     return render(request, 'famous/index.html', context=context)
 
+def about(request):
+    return render(request, 'famous/about.html', { 'menu':menu, 'title':'Main page'})
+
+def categories(request):
+    return render(request, 'famous/categories.html')
+
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h1>Page not found<h1/>')

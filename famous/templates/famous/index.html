@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Main</title>
-</head>
-<body>
-</h1>Main page</h1>
-</body>
-</html>
+{% extends 'famous/base.html' %}
+
+{% block content %}
+<h1>{{title}}<h1/>
+
+<ul>
+    {% for p in posts %}
+    <li>
+    <h2>{{p.title}}<h2>
+    <p>{{p.content}}<p/>
+    <hr>
+    {% endfor %}
+<ul/>
+
+{% endblock %}
