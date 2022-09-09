@@ -4,9 +4,7 @@ from django.shortcuts import render, redirect
 from .models import *
 
 menu = [{'title': "About", 'url_name': 'about'},
-        {'title': "Add post", 'url_name': 'add_page'},
         {'title': "Contact", 'url_name': 'contact'},
-        {'title': "Sogn In", 'url_name': 'login'}
 ]
 
 def index(request):
@@ -24,6 +22,11 @@ def about(request):
 
 def categories(request):
     return render(request, 'famous/categories.html')
+
+
+def contact(request):
+    return HttpResponse("Contact us")
+
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Page not found<h1/>')
