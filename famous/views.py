@@ -9,10 +9,14 @@ menu = [{'title': "About", 'url_name': 'about'},
 
 def index(request):
     posts = Famous.objects.all()
+    cats = Category.objects.all()
+
     context = {
         'posts': posts,
+        'cats':cats,
         'menu': menu,
-        'title': 'Main page'
+        'title': 'Main page',
+        'cat_selected': 0,
     }
 
     return render(request, 'famous/index.html', context=context)
@@ -20,8 +24,25 @@ def index(request):
 def about(request):
     return render(request, 'famous/about.html', { 'menu':menu, 'title':'Main page'})
 
-def categories(request):
-    return render(request, 'famous/categories.html')
+def show_category(request, cat_id):
+    posts = Famous.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
+
+    if len(posts) == 0:
+        raise Http404
+
+    context = {
+        'posts': posts,
+        'cats': cats,
+        'menu': menu,
+        'title': 'Display by categories',
+        'cat_selected': cat_id,
+    }
+
+    return render(request, 'famous/index.html', context=context)
+
+def show_post(request, post_id):
+    return HttpResponse (f'{post_id}')
 
 
 def contact(request):
