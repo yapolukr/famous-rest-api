@@ -4,6 +4,7 @@ from django.urls import reverse
 class Famous(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
+    photo = models.ImageField(null=True, upload_to='photos/')
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
@@ -15,6 +16,11 @@ class Famous(models.Model):
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_id':self.pk})
 
+    class Meta:
+        verbose_name = "Famous people"
+        verbose_name_plural = "Famous people"
+        ordering = ['-cat']
+
 class Category(models.Model):
     name =  models.CharField(max_length=100, db_index=True)
 
@@ -23,3 +29,8 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_id':self.pk})
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+        ordering = ['id']
