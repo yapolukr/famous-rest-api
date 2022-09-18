@@ -10,6 +10,7 @@ def get_categories(filter=None):
     else:
         return Category.objects.filter(pk=filter)
 
+
 @register.inclusion_tag('famous/list_categories.html')
 def show_categories(cat_selected=0):
     cats = Category.objects.all()

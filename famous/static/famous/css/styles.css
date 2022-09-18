@@ -106,6 +106,7 @@ ul.mainmenu li {float: right;}
 ul.mainmenu li a {
 	color: 	#fff8dc;
 	text-decoration: none;
+	vertical-align: middle
 }
 ul.mainmenu li a:hover {
 	color: #FDA83D;
