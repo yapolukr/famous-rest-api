@@ -1,34 +1,35 @@
 from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from django.views.generic import ListView
+from rest_framework import generics
+
+from .serializers import FamousSerializer
 
 
-def index(request):
-    posts = Famous.objects.all()
-    context = {
-        'posts': posts,
-        'title': 'Main page',
-        'cat_selected': 0,
-    }
-    return render(request, 'famous/index.html', context=context)
+class FamousHome(ListView):
+    model = Famous
+    template_name = 'famous/index.html'
+    context_object_name = 'posts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Main page'
+        context['cat_selected'] = 0
+        return context
+
+class FamousCat(ListView):
+    model = Famous
+    template_name = 'famous/index.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return Famous.objects.filter(cat__slug=self.kwargs['cat_slug'])
+
 
 def about(request):
     return render(request, 'famous/about.html')
 
-def show_category(request, cat_slug):
-    cat = Category.objects.filter(slug=cat_slug)
-    posts = Famous.objects.filter(cat_id=cat[0].id)
-
-    if len(posts) == 0:
-        raise Http404
-
-    context = {
-        'posts': posts,
-        'title': 'Display by categories',
-        'cat_selected': cat[0].id,
-    }
-
-    return render(request, 'famous/index.html', context=context)
 
 def show_post(request, post_slug):
     post = get_object_or_404(Famous, slug=post_slug)
@@ -46,3 +47,8 @@ def contact(request):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Page not found<h1/>')
+
+class FamousAPIView(generics.ListAPIView):
+    queryset = Famous.objects.all()
+    serializer_class = FamousSerializer
+

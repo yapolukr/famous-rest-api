@@ -3,7 +3,7 @@ from .models import *
 # Register your models here.
 
 class FamousAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'time_create','photo','is_published')
+    list_display = ('id', 'title', 'time_create','photo')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     prepopulated_fields = {'slug': ('title',)}
